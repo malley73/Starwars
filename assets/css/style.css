@@ -1,0 +1,22 @@
+body {
+
+    background-image: url('../images/DeathStar.jpg');
+    background-size: 100% auto;
+        background-repeat: no-repeat;
+
+}
+
+h1{
+    color: white;
+    text-align: center;
+}
+h2{
+    color: white;
+}
+img {
+    padding: 5px; /* Some padding */
+    width: 150px; /* Set a small width */
+    height; auto;
+}
+
+
