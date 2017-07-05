@@ -8,6 +8,7 @@
     <!-- Add in any links to external JS and/or CSS files here -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
 </head>
 
 <body class="Site">
@@ -18,32 +19,97 @@
         <div class="row">
             <!-- Left Panel -->
             <div class="col-sm-6">
-                <div class="col-sm-6">
+                <div class="col-sm-5 attackers">
                     <h2 class="choose attack">Attack</h2>
-                    <img src="assets\images\xwing.jpg" class="img xwing" alt="X-Wing" style="position:absolute; top:60px; left: 10px; z-index:0; height: 200px width:auto">
-                    <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing" style="position:absolute; top:250px; left: 10px; z-index:0; height: 200px width:auto">
+                    <img src="assets\images\xwing.jpg" class="img xwing" alt="X-Wing" style="top:60px;">
+                    <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing" style="top:250px;">
                 </div>
-                <div class="col-sm-6">
-                    <h2 class="choose defend">Defend</h2>
-                    <img src="assets\images\TIE_Fighter.jpg" class="img tiefighter" alt="TIE-Fighter" style="position:absolute; top:60px; left: 10px; z-index:0; height: 200px width:auto">
-                    <img src="assets\images\TIE_Interceptor.jpg" class="img tieinterceptor" alt="TIE-Interceptor" style="position:absolute; top:250px; left: 10px; z-index:0; height: 200px width:auto">
+                <div class="cols-sm-2">
+                </div>
+                <div class="col-sm-5 defenders">
+                    <h2 class="choose">Defend</h2>
+                    <img src="assets\images\TIE_Fighter.jpg" class="img tieFighter" alt="TIE-Fighter" style="top:60px;">
+                    <img src="assets\images\TIE_Interceptor.jpg" class="img tieInterceptor" alt="TIE-Interceptor" style="top:250px;">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6 ">
+        <footer class="footer">
+            <div class="container">
                 <p>Your mission is to defend or clear the way for an attack on the Death Star. </p>
-                <br>
                 <p>Each ship has a differnt strengths and weakness. </p>
-                <br>
                 <p>Some have more powerful cannons, while other can fire more often. </p>
-                <br>
                 <p>Some ships have heavy armor and can with stand multiple hits, while others can dodge hits entirely.</p>
-                <br>
                 <p>Though attackers strike first the fight will not be resolved with the first attack.</p>
             </div>
-        </div>
+        </footer>
     </div>
+    <script>
+    // JavaScript function that wraps everything
+    $(document).ready(function() {
+     
+        var xwing = {
+            armor: 30,
+            power: 40,
+            dodge: 40,
+            speed: 2
+        };
+        var ywing = {
+            armor: 40,
+            power: 30,
+            dodge: 30,
+            speed: 2
+        };
+        var tieFighter = {
+            armor: 10,
+            power: 10,
+            dodge: 40,
+            speed: 1
+        };
+        var tieInterceptor = {
+            armor: 20,
+            power: 30,
+            dodge: 50,
+            speed: 2
+        };
+        var playerShip = "";
+
+        $('.xwing').bind('click', function() {
+            var playerShip = "xwing";
+            $(".xwing").animate({
+                height: "150px",
+                top: "160px"
+            });
+        });
+
+        $('.ywing').bind('click', function() {
+            var playerShip = "ywing";
+            $(".ywing").animate({
+                height: "150px",
+                top: "160px"
+            });
+        });
+        $('.tieFighter').bind('click', function() {
+            var playerShip = "tieFighter";
+            $(".tieFighter").animate({
+                height: "150px",
+                top: "160px"
+            });
+        });
+
+        $('.tieInterceptor').bind('click', function() {
+            var playerShip = "tieInterceptor";
+            $(".tieInterceptor").animate({
+                height: "150px",
+                top: "160px"
+            });
+        });
+
+
+
+
+
+    });
+    </script>
 </body>
 
 </html>

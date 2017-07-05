@@ -1,22 +1,40 @@
-body {
-
-    background-image: url('../images/DeathStar.jpg');
-    background-size: 100% auto;
+    html {
+        position: relative;
+        min-height: 100%;
+    }
+    
+    body {
+        background-image: url('../images/DeathStar.jpg');
+        background-size: 100% auto;
         background-repeat: no-repeat;
-
-}
-
-h1{
-    color: white;
-    text-align: center;
-}
-h2{
-    color: white;
-}
-img {
-    padding: 5px; /* Some padding */
-    width: 150px; /* Set a small width */
-    height; auto;
-}
-
-
+        margin-bottom: 150px;
+    }
+    
+    h1 {
+        color: white;
+        text-align: center;
+    }
+    
+    h2,
+    p {
+        color: white;
+    }
+    
+    img {
+        padding: 5px;
+        /* Some padding */
+        position: absolute;
+        left: 10px;
+        z-index: 0;
+        height: 200px;
+        width: auto;
+    }
+    
+    .footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        /* Set the fixed height of the footer here */
+        height: 150px;
+       
+    }
