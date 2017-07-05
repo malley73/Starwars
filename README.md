@@ -1,2 +1,2 @@
 # Starwars
-Starwars-Battle of Yavin - Star Fighter Battle
+Starwars - Battle of Endor - Star Fighter Battle

@@ -10,12 +10,12 @@
         margin-bottom: 150px;
     }
     
-    h1 {
+    h1,h2 {
         color: white;
         text-align: center;
     }
     
-    h2,
+    
     p {
         color: white;
     }
@@ -25,11 +25,23 @@
         /* Some padding */
         position: absolute;
         left: 10px;
-        z-index: 0;
+        
         height: 200px;
         width: auto;
+        border:red;
     }
-    
+        .xwing,.tieFighter{
+        top:60px;
+        z-index: 10;
+    }
+
+    .tieInterceptor,.ywing{
+        top:250px;
+        z-index: 0;
+        border:solid 3px green;
+        border-radius: 10px;
+    }
+
     .footer {
         position: absolute;
         bottom: 0;
