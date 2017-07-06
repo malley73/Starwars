@@ -26,7 +26,7 @@
                     <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing">
                 </div>
                 <div class="col-lg-2">
-                <p>place holder</p>
+                    <p>place holder</p>
                 </div>
                 <div class="col-lg-4 defenders">
                     <h2 class="choose">Defend</h2>
@@ -48,7 +48,8 @@
     <script>
     // JavaScript function that wraps everything
     $(document).ready(function() {
-     
+
+        // Declare Variables
         var xwing = {
             armor: 30,
             power: 40,
@@ -74,51 +75,108 @@
             speed: 2
         };
         var playerShip = "";
+        var computerShip = "";
 
-// Pick a ship
-        $('.xwing').bind('click', function() {
-            var playerShip = "xwing";
-            $(".xwing").animate({
+        // Game Runs Here
+
+        if (playerShip === "") {
+            pickaship();
+        }
+
+
+        function pickaship() {
+            // Pick a ship
+            $('.xwing').on('click', function() {
+                playerShip = ".xwing";
+                $(".ywing").remove(); //remove the other attacker
+                selectionComplete();
+            });
+
+            $('.ywing').on('click', function() {
+                playerShip = ".ywing";
+                $(".xwing").remove(); //remove the other attacker
+                selectionComplete();
+            });
+
+            $('.tieFighter').on('click', function() {
+                playerShip = ".tieFighter";
+                $(".tieInterceptor").remove(); //remove the other defense
+                selectionComplete();
+            });
+
+            $('.tieInterceptor').on('click', function() {
+                playerShip = ".tieInterceptor";
+                $(".tieFighter").remove(); //remove the other defense
+                selectionComplete();
+
+                // $(".tieInterceptor").effect("shake", {
+                //     times: 3
+                // }, 500); // on hit effect
+                // $(".tieInterceptor").css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
+            });
+
+
+
+        }
+
+        function computerPick() {
+            var rdm = Math.random();
+            console.log("random " + rdm);
+            switch (playerShip) {
+                case ".xwing":
+                case ".ywing":
+                    if (rdm < .5) {
+                        computerShip = ".tieFighter";
+                        $(".tieInterceptor").remove();
+                        compPickComplete();
+                    } else {
+                        computerShip = ".tieInterceptor";
+                        $(".tieFighter").remove();
+                        compPickComplete();
+                    }
+                    break;
+
+                case ".tieInterceptor":
+                case ".tieFighter":
+                    if (rdm < .5) {
+                        computerShip = ".xwing";
+                        $(".ywing").remove();
+                        compPickComplete();
+                    } else {
+                        computerShip = ".ywing";
+                        $(".xwing").remove();
+                        compPickComplete();
+
+                    }
+                    break;
+            }
+            $(computerShip).animate({
                 height: "150px",
                 top: "160px"
             });
-        });
 
-        $('.ywing').bind('click', function() {
-            var playerShip = "ywing";
-            $(".ywing").animate({
-                height: "150px",
-                top: "160px"
-            });
-        });
-        $('.tieFighter').bind('click', function() {
-            var playerShip = "tieFighter";
-            $(".tieFighter").animate({
-                height: "150px",
-                top: "160px"
-            });
-        });
 
-        $('.tieInterceptor').bind('click', function() {
-            var playerShip = ".tieInterceptor";
-            $( ".tieFighter" ).remove(); //remove the other defense
-            $("h2").remove();// remove titles
+        }
+
+        function selectionComplete() {
+            console.log("Player: " + playerShip);
+            $('.ywing').off('click');
+            $('.xwing').off('click');
+            $('.tieFighter').off('click');
+            $('.tieInterceptor').off('click');
+            $("h2").remove(); // remove titles
             // move into attack position
             $(playerShip).animate({
                 height: "150px",
-                top: "160px"               
+                top: "160px"
             });
-            $(".tieInterceptor").effect("shake",{times:3},500); // on hit effect
-            $(".tieInterceptor").css("border","solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
-        });
+            computerPick();
 
-// Shake effect
-// $( '.tieInterceptor' ).click(function() {
-//   $( ".tieInterceptor" ).effect( "shake" );
-// });
+        }
 
-
-
+        function compPickComplete() {
+            console.log("Computer: " + computerShip);
+        }
     });
     </script>
 </body>
