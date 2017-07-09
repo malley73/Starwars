@@ -2,23 +2,33 @@
 $(document).ready(function() {
 
   // Declare Variables
+  // setting up multichannel sound array
+  //http://www.storiesinflight.com/html5/audio.html
+  var channel_max = 10; // number of channels
+  var audiochannels = new Array();
+  for (a = 0; a < channel_max; a++) { // prepare the channels
+    audiochannels[a] = new Array();
+    audiochannels[a]['channel'] = new Audio(); // create a new audio object
+    audiochannels[a]['finished'] = -1; // expected end time for this channel
+  }
+  // arming star fighters
   var ships = {
     xwing: {
       armor: 30,
-      power: 0,
-      dodge: 30,
+      power: 40,
+      dodge: 20,
       speed: 1
     },
     ywing: {
       armor: 40,
-      power: 0,
-      dodge: 30,
+      power: 30,
+      dodge: 10,
       speed: 1
     },
     tieFighter: {
       armor: 10,
       power: 15,
-      dodge: 60,
+      dodge: 50,
       speed: 2
     },
     tieInterceptor: {
@@ -35,20 +45,30 @@ $(document).ready(function() {
   var totalPlayerHealth = 100;
   var totalComputerHealth = 100;
   var attackingPlayer = "";
+  var attackShip = "";
   var attackpower = 0;
   var attackarmor = 0;
   var attackdodge = 0;
   var attackspeed = 0;
+  var defenseShip = 0;
   var defensepower = 0;
   var defensearmor = 0;
   var defensedodge = 0;
   var defensespeed = 0;
   var round = 0;
   var gameOver = false;
-  var lineCount=0;
+  var lineCount = 0;
 
 
   // Game Runs here
+  $(".theme-button").on("click", function() {
+    play_multi_sound('multiaudio4');
+  });
+
+  $(".pause-button").on("click", function() {
+    pause_multi_sound('multiaudio4');
+  });
+
   if (gameOver === false) {
     if (playerShip === "") {
       pickaship();
@@ -63,14 +83,12 @@ $(document).ready(function() {
     var startgame = $("<button>");
     startgame.addClass("start");
     startgame.text("*  Fire!  *");
-    startgame.css("background-color","red");
+    startgame.css("background-color", "red");
     $("#gamearea").append(startgame);
-
     $('.start').on('click', function() {
       battleInit();
     });
   }
-
 
   function battleInit() {
     round++;
@@ -109,26 +127,21 @@ $(document).ready(function() {
   function attack() {
 
     for (i = 0; i < attackspeed; i++) {
-      var audioElement = document.createElement('audio');
-      audioElement.setAttribute('src', './assets/images/XWing-Laser.wav');
-      audioElement.play();
+      play_multi_sound('multiaudio2');
       // did defender dodge?
       if (Math.random() < defensedodge / 100) {
         // dodge successful
-        //$("#gamearea").append("<p>Defender dodged the attack!</p>");
         lineCount++;
-        $('<p>').attr('id', 'line'+lineCount).appendTo('#gamearea').html('Defender dodged the attack!');
-        $("#line"+(lineCount-10)).remove();
+        $('<p>').attr('id', 'line' + lineCount).appendTo('#gamearea').html('Defender dodged the attack!');
+        $("#line" + (lineCount - 10)).remove();
       } else {
         //dodge fail compute damage
         var damage = Math.round(((100 - defensearmor) / 100) * attackpower);
-        //$("#gamearea").append("<p>Defender took " + damage + " points of damage!</p>")
         lineCount++;
-        $('<p>').attr('id', 'line'+lineCount).appendTo('#gamearea').html('Defender took '+ damage + ' points of damage!');
-        $("#line"+(lineCount-10)).remove();
+        $('<p>').attr('id', 'line' + lineCount).appendTo('#gamearea').html('Defender took ' + damage + ' points of damage!');
+        $("#line" + (lineCount - 10)).remove();
         if (attackingPlayer === "player") {
           computerHealth -= damage;
-          console.log(computerHealth);
           if (computerHealth < .5 * totalComputerHealth) {
             $(computerShip).css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
           }
@@ -136,14 +149,12 @@ $(document).ready(function() {
             $(computerShip).css("border", "solid 3px red");
           }
           if (computerHealth <= 0) {
-            //continue;
             attackerWin();
           } else {
             $(computerShip).effect("shake"); // on hit effect
           }
         } else {
           playerHealth -= damage;
-          console.log(playerHealth);
           if (playerHealth < .5 * totalPlayerHealth) {
             $(playerShip).css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
           }
@@ -151,7 +162,6 @@ $(document).ready(function() {
             $(playerShip).css("border", "solid 3px red");
           }
           if (playerHealth <= 0) {
-            //continue;
             attackerWin();
           } else {
             $(playerShip).effect("shake"); // on hit effect
@@ -162,28 +172,22 @@ $(document).ready(function() {
   }
 
   function defender() {
-    console.log("function defender ran");
     for (i = 0; i < defensespeed; i++) {
-      var audioElement = document.createElement('audio');
-      audioElement.setAttribute('src', './assets/images/TIE-Fire.wav');
-      audioElement.play();
+      play_multi_sound('multiaudio1');
       // did defender dodge?
       if (Math.random() < attackdodge / 100) {
         // dodge successful
-        //$("#gamearea").append("<p>Attacker dodged the counter attack!</p>");
         lineCount++;
-        $('<p>').attr('id', 'line'+lineCount).appendTo('#gamearea').html('Attacker dodged the counter attack!');
-        $("#line"+(lineCount-10)).remove();
+        $('<p>').attr('id', 'line' + lineCount).appendTo('#gamearea').html('Attacker dodged the counter attack!');
+        $("#line" + (lineCount - 10)).remove();
       } else {
         //dodge fail compute damage
         var damage = Math.round(((100 - attackarmor) / 100) * defensepower);
-        //$("#gamearea").append("<p>Attacker took " + damage + " points of damage!</p>");
         lineCount++;
-        $('<p>').attr('id', 'line'+lineCount).appendTo('#gamearea').html('Attacker took ' + damage + ' points of damage!');
-        $("#line"+(lineCount-10)).remove();        
+        $('<p>').attr('id', 'line' + lineCount).appendTo('#gamearea').html('Attacker took ' + damage + ' points of damage!');
+        $("#line" + (lineCount - 10)).remove();
         if (attackingPlayer != "player") {
           computerHealth -= damage;
-          console.log(computerHealth);
           if (computerHealth < .5 * totalComputerHealth) {
             $(computerShip).css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
           }
@@ -191,14 +195,12 @@ $(document).ready(function() {
             $(computerShip).css("border", "solid 3px red");
           }
           if (computerHealth <= 0) {
-            //continue;
             defenderWin();
           } else {
             $(computerShip).effect("shake"); // on hit effect
           }
         } else {
           playerHealth -= damage;
-          console.log(playerHealth);
           if (playerHealth < .5 * totalPlayerHealth) {
             $(playerShip).css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
           }
@@ -206,7 +208,6 @@ $(document).ready(function() {
             $(playerShip).css("border", "solid 3px red");
           }
           if (playerHealth <= 0) {
-            //continue;
             defenderWin();
           } else {
             $(playerShip).effect("shake"); // on hit effect
@@ -217,35 +218,47 @@ $(document).ready(function() {
   }
 
   function defenderWin() {
-    console.log("function defenderWin ran");
     $('.start').off('click');
     gameOver = true;
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', './assets/images/Explosion Large 2.wav');
-    audioElement.play();
+    $(".xwing").hide("explode", { pieces: 25 }, 2000);
+    $(".ywing").hide("explode", { pieces: 25 }, 2000);
+    play_multi_sound('multiaudio3');
     $("#gamearea").empty();
-    $("#gamearea").append("<p>The blockade stood the onslaught of the dirty rebel scum and their puny rebelion was crushed when the Deathstar destroyed the Forest Moon of Endor and the rebel base.</p>");
+    $(".instructions").empty();
+    $("#gamearea").append("<p>The blockade stood the onslaught of the dirty rebel scum. Their puny rebelion was crushed when the Deathstar destroyed the Forest Moon of Endor and the rebel base.</p>");
     $("#gamearea").append('<img src="assets\\images\\imperialseal.jpg" id="imperialseal" />');
-    $("#imperialseal").css('margin-left','-200px');
-    $("#imperialseal").fadeTo("slow",0.33);
     $("#imperialseal").animate({
-      height: "600px",
+      marginLeft: "-150px",
+      height: "500px",
       width: "auto"
-    });
-
-          //<img src="assets\images\xwing.jpg" class="img xwing" alt="X-Wing">
-//
+    }, 2000);
+    $("#imperialseal").fadeTo("slow", 0.33);
+    $(".instructions").append("<p> Press any key to play again... </p>");
+    document.onkeyup = function(event) {
+      window.location.reload();
+    };
   }
 
   function attackerWin() {
-    console.log("function attackerWin ran");
     $('.start').off('click');
     gameOver = true;
-    var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', './assets/images/Explosion Large 2.wav');
-    audioElement.play();
+    $(".tieInterceptor").hide("explode", { pieces: 25 }, 2000);
+    $(".tieFighter").hide("explode", { pieces: 25 }, 2000);
+    play_multi_sound('multiaudio3');
     $("#gamearea").empty();
+    $(".instructions").empty();
     $("#gamearea").append("<p>The rebel alliance, against all odds, was able to successfully run the blockade, maneuver through the fully functional but not yet completed Deathstar to it's core and destroy it's central reactor therby saving the alliance and crippling the empire.</p>");
+    $("#gamearea").append('<img src="assets\\images\\allianceseal.jpg" id="allianceseal" />');
+    $("#allianceseal").animate({
+      marginLeft: "-150px",
+      height: "500px",
+      width: "auto"
+    }, 2000);
+    $("#allianceseal").fadeTo("slow", 0.33);
+    $('.instructions').append("<p> Press any key to play again... </p>");
+    document.onkeyup = function(event){
+      window.location.reload();
+    };
   }
 
   function pickaship() {
@@ -276,15 +289,11 @@ $(document).ready(function() {
       attackingPlayer = "computer";
       $(".tieFighter").remove(); //remove the other defense
       selectionComplete();
-
-      // $(".tieInterceptor").effect("shake"); // on hit effect
-      // $(".tieInterceptor").css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
     });
   }
 
   function computerPick() {
     var rdm = Math.random();
-    console.log("random " + rdm);
     switch (playerShip) {
       case ".xwing":
       case ".ywing":
@@ -320,7 +329,6 @@ $(document).ready(function() {
   }
 
   function selectionComplete() {
-    console.log("Player: " + playerShip);
     $('.ywing').off('click');
     $('.xwing').off('click');
     $('.tieFighter').off('click');
@@ -335,9 +343,26 @@ $(document).ready(function() {
   }
 
   function compPickComplete() {
-    console.log("Computer: " + computerShip);
     letsPlay();
   }
 
+  function pause_multi_sound(s) {
+    for (a = 0; a < audiochannels.length; a++) {
+      audiochannels[a]['channel'].pause();
+    }
+  }
+
+  function play_multi_sound(s) {
+    for (a = 0; a < audiochannels.length; a++) {
+      thistime = new Date();
+      if (audiochannels[a]['finished'] < thistime.getTime()) { // is this channel finished?
+        audiochannels[a]['finished'] = thistime.getTime() + document.getElementById(s).duration * 1000;
+        audiochannels[a]['channel'].src = document.getElementById(s).src;
+        audiochannels[a]['channel'].load();
+        audiochannels[a]['channel'].play();
+        break;
+      }
+    }
+  }
 
 });

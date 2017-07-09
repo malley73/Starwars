@@ -14,8 +14,19 @@
 </head>
 
 <body class="Site">
-  <nav class="TitleBar">
-    <h1 id="title">Battle of Endor</h1>
+  <nav class="navbar">
+    <p class="navbar-brand">Battle of Endor</p>
+    <div>
+      <!-- <h1>Page <span class="highlight">Title</span></h1> -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <button class="btn btn-default btn-xs theme-button"><span class="glyphicon glyphicon-play"></span> Play Soundtrack</button>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-default btn-xs pause-button"><span class="glyphicon glyphicon-pause"></span> Pause music</button>
+        </li>
+      </ul>
+    </div>
   </nav>
   <div class="contianer">
     <div class="row">
@@ -27,7 +38,6 @@
           <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing">
         </div>
         <div class="col-lg-4" id="gamearea">
-          
         </div>
         <div class="col-lg-4 defenders">
           <h2 class="choose">Defend</h2>
@@ -36,8 +46,14 @@
         </div>
       </div>
     </div>
+    <div class="audiofiles">
+      <audio id="multiaudio1" src="assets\images\TIE-Fire.wav" preload="auto"></audio>
+      <audio id="multiaudio2" src="assets\images\XWing-Laser.wav" preload="auto"></audio>
+      <audio id="multiaudio3" src="assets\images\Explosion Large 1.wav" preload="auto"></audio>
+      <audio id="multiaudio4" src="assets\images\The Battle of Endor.mp3" preload="auto"></audio>
+    </div>
     <footer class="footer">
-      <div class="container">
+      <div class="container instructions">
         <p>Your mission is to defend or clear the way for an attack on the Death Star. </p>
         <p>Each ship has a differnt strengths and weakness. </p>
         <p>Some have more powerful cannons, while other can fire more often. </p>
@@ -47,7 +63,6 @@
     </footer>
   </div>
   <script>
- 
   </script>
 </body>
 
