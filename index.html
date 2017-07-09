@@ -2,183 +2,53 @@
 <html>
 
 <head>
-    <title>Battle of Endor</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Add in any links to external JS and/or CSS files here -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <title>Battle of Endor</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Add in any links to external JS and/or CSS files here -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script type="text/javascript" src="./assets/script/starwars.js"></script>
 </head>
 
 <body class="Site">
-    <nav class="TitleBar">
-        <h1 id="title">Battle of Endor</h1>
-    </nav>
-    <div class="contianer">
-        <div class="row">
-            <!-- Left Panel -->
-            <div class="col-lg-8">
-                <div class="col-lg-4 attackers">
-                    <h2 class="choose attack">Attack</h2>
-                    <img src="assets\images\xwing.jpg" class="img xwing" alt="X-Wing">
-                    <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing">
-                </div>
-                <div class="col-lg-2">
-                    <p>place holder</p>
-                </div>
-                <div class="col-lg-4 defenders">
-                    <h2 class="choose">Defend</h2>
-                    <img src="assets\images\TIE_Fighter.jpg" class="img tieFighter" alt="TIE-Fighter">
-                    <img src="assets\images\TIE_Interceptor.jpg" class="img tieInterceptor" alt="TIE-Interceptor">
-                </div>
-            </div>
+  <nav class="TitleBar">
+    <h1 id="title">Battle of Endor</h1>
+  </nav>
+  <div class="contianer">
+    <div class="row">
+      <!-- Left Panel -->
+      <div class="col-lg-8">
+        <div class="col-lg-4 attackers">
+          <h2 class="choose attack">Attack</h2>
+          <img src="assets\images\xwing.jpg" class="img xwing" alt="X-Wing">
+          <img src="assets\images\ywing.jpg" class="img ywing" alt="Y-Wing">
         </div>
-        <footer class="footer">
-            <div class="container">
-                <p>Your mission is to defend or clear the way for an attack on the Death Star. </p>
-                <p>Each ship has a differnt strengths and weakness. </p>
-                <p>Some have more powerful cannons, while other can fire more often. </p>
-                <p>Some ships have heavy armor and can with stand multiple hits, while others can dodge hits entirely.</p>
-                <p>Though attackers strike first the fight will not be resolved with the first attack.</p>
-            </div>
-        </footer>
+        <div class="col-lg-4" id="gamearea">
+          
+        </div>
+        <div class="col-lg-4 defenders">
+          <h2 class="choose">Defend</h2>
+          <img src="assets\images\TIE_Fighter.jpg" class="img tieFighter" alt="TIE-Fighter">
+          <img src="assets\images\TIE_Interceptor.jpg" class="img tieInterceptor" alt="TIE-Interceptor">
+        </div>
+      </div>
     </div>
-    <script>
-    // JavaScript function that wraps everything
-    $(document).ready(function() {
-
-        // Declare Variables
-        var xwing = {
-            armor: 30,
-            power: 40,
-            dodge: 40,
-            speed: 2
-        };
-        var ywing = {
-            armor: 40,
-            power: 30,
-            dodge: 30,
-            speed: 2
-        };
-        var tieFighter = {
-            armor: 10,
-            power: 10,
-            dodge: 40,
-            speed: 1
-        };
-        var tieInterceptor = {
-            armor: 20,
-            power: 30,
-            dodge: 50,
-            speed: 2
-        };
-        var playerShip = "";
-        var computerShip = "";
-
-        // Game Runs Here
-
-        if (playerShip === "") {
-            pickaship();
-        }
-
-
-        function pickaship() {
-            // Pick a ship
-            $('.xwing').on('click', function() {
-                playerShip = ".xwing";
-                $(".ywing").remove(); //remove the other attacker
-                selectionComplete();
-            });
-
-            $('.ywing').on('click', function() {
-                playerShip = ".ywing";
-                $(".xwing").remove(); //remove the other attacker
-                selectionComplete();
-            });
-
-            $('.tieFighter').on('click', function() {
-                playerShip = ".tieFighter";
-                $(".tieInterceptor").remove(); //remove the other defense
-                selectionComplete();
-            });
-
-            $('.tieInterceptor').on('click', function() {
-                playerShip = ".tieInterceptor";
-                $(".tieFighter").remove(); //remove the other defense
-                selectionComplete();
-
-                // $(".tieInterceptor").effect("shake", {
-                //     times: 3
-                // }, 500); // on hit effect
-                // $(".tieInterceptor").css("border", "solid 3px orange"); // green 0-50%; orange 50-75%; red 75-100% damage
-            });
-
-
-
-        }
-
-        function computerPick() {
-            var rdm = Math.random();
-            console.log("random " + rdm);
-            switch (playerShip) {
-                case ".xwing":
-                case ".ywing":
-                    if (rdm < .5) {
-                        computerShip = ".tieFighter";
-                        $(".tieInterceptor").remove();
-                        compPickComplete();
-                    } else {
-                        computerShip = ".tieInterceptor";
-                        $(".tieFighter").remove();
-                        compPickComplete();
-                    }
-                    break;
-
-                case ".tieInterceptor":
-                case ".tieFighter":
-                    if (rdm < .5) {
-                        computerShip = ".xwing";
-                        $(".ywing").remove();
-                        compPickComplete();
-                    } else {
-                        computerShip = ".ywing";
-                        $(".xwing").remove();
-                        compPickComplete();
-
-                    }
-                    break;
-            }
-            $(computerShip).animate({
-                height: "150px",
-                top: "160px"
-            });
-
-
-        }
-
-        function selectionComplete() {
-            console.log("Player: " + playerShip);
-            $('.ywing').off('click');
-            $('.xwing').off('click');
-            $('.tieFighter').off('click');
-            $('.tieInterceptor').off('click');
-            $("h2").remove(); // remove titles
-            // move into attack position
-            $(playerShip).animate({
-                height: "150px",
-                top: "160px"
-            });
-            computerPick();
-
-        }
-
-        function compPickComplete() {
-            console.log("Computer: " + computerShip);
-        }
-    });
-    </script>
+    <footer class="footer">
+      <div class="container">
+        <p>Your mission is to defend or clear the way for an attack on the Death Star. </p>
+        <p>Each ship has a differnt strengths and weakness. </p>
+        <p>Some have more powerful cannons, while other can fire more often. </p>
+        <p>Some ships have heavy armor and can with stand multiple hits, while others can dodge hits entirely.</p>
+        <p>Though attackers strike first the fight will not be resolved with the first attack.</p>
+      </div>
+    </footer>
+  </div>
+  <script>
+ 
+  </script>
 </body>
 
 </html>
