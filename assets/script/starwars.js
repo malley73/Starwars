@@ -247,7 +247,7 @@ $(document).ready(function() {
     play_multi_sound('multiaudio3');
     $("#gamearea").empty();
     $(".instructions").empty();
-    $("#gamearea").append("<p>The rebel alliance, against all odds, was able to successfully run the blockade, maneuver through the fully functional but not yet completed Deathstar to it's core and destroy it's central reactor therby saving the alliance and crippling the empire.</p>");
+    $("#gamearea").append("<p>The rebel alliance, against all odds, was able to successfully run the blockade, maneuver through the fully functional but not yet completed Deathstar to its core and destroy its central reactor therby saving the alliance and crippling the empire.</p>");
     $("#gamearea").append('<img src="assets\\images\\allianceseal.jpg" id="allianceseal" />');
     $("#allianceseal").animate({
       marginLeft: "-150px",
